@@ -1,0 +1,14 @@
+Project ID: 60
+Title: Build your own React
+Category: Front-end Framework / Library
+Language: JavaScript
+Source Tutorial: https://pomb.us/build-your-own-react/
+
+SKILLS USED:
+- React Fiber linked-list tree structure (parent, child, sibling, alternate pointers)
+- Time-sliced cooperative workLoop yielding via deadline.timeRemaining()
+- Split Render phase (reconcileChildren) and atomic Commit phase (commitRoot / commitDeletion)
+- Hook state & effect cells indexed per Fiber (useState action queues, useEffect dependency diffing and cleanup)
+
+WHAT I LEARNED MAKING THIS:
+Building the `pomb.us` Fiber architecture clarified why React moved from a recursive call-stack reconciler to a linked-list Fiber tree. Because recursion cannot easily pause mid-tree and resume later, modeling each node as a Fiber with `parent`, `child`, and `sibling` pointers allows `workLoop()` to yield whenever the browser needs the main thread and pick up at `nextUnitOfWork` later. Splitting render from `commitRoot()` guarantees users never see a half-rendered UI even when work spans multiple frames, while `wipFiber.hooks[hookIndex]` explains exactly why hooks must never be called conditionally.

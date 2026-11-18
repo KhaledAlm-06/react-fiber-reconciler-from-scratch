@@ -1,0 +1,11 @@
+{
+  "name": "060-javascript-build-your-own-react",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js",
+    "test": "node main.js"
+  }
+}

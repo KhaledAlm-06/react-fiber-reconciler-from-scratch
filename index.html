@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Build Your Own React (pomb.us Fiber &amp; Hooks)</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 640px; margin: 32px auto; background: #09090b; color: #fafafa; }
+    .card { background: #18181b; border: 1px solid #27272a; border-radius: 10px; padding: 18px; }
+    button { background: #22d3ee; color: #083344; border: none; padding: 8px 14px; border-radius: 6px; font-weight: 700; cursor: pointer; margin-right: 8px; }
+  </style>
+</head>
+<body>
+  <h2>Build Your Own React (Fiber + Concurrent WorkLoop + Hooks)</h2>
+  <p id="status" style="color:#4ade80;"></p>
+  <div id="root"></div>
+  <script src="main.js"></script>
+  <script>
+    const { createElement, render, useState, useEffect, reset, runSelfTests } = window.PombUsDidact;
+    runSelfTests();
+    document.getElementById("status").textContent = "Fiber workLoop, useState & useEffect tests passed!";
+    reset();
+
+    function TimerBanner({ count }) {
+      const [note, setNote] = useState("Ready");
+      useEffect(() => {
+        setNote("Synced at count = " + count);
+      }, [count]);
+      return createElement("p", null, note);
+    }
+
+    function Counter() {
+      const [state, setState] = useState(1);
+      const [visible, setVisible] = useState(true);
+      return createElement(
+        "div",
+        { className: "card" },
+        createElement("h3", null, "Fiber Count: ", state),
+        createElement("button", { onClick: () => setState((c) => c + 1) }, "Increment"),
+        createElement("button", { onClick: () => setVisible((v) => !v) }, visible ? "Unmount Effect" : "Mount Effect"),
+        visible ? createElement(TimerBanner, { count: state }) : null
+      );
+    }
+
+    render(createElement(Counter, null), document.getElementById("root"), document);
+  </script>
+</body>
+</html>
